@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+  <title>Task Management Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
+  <script src="script.js"></script>
+</head>
+<body ng-controller="CrudCtrl">
+  
+<div class="container-fluid">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Task Management</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </nav>          
+</div>
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">Tasks
+          <a class="btn btn-primary btn-xs pull-right" ng-click="add()">Add new Task</a>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                  <tr>
+                    <th>Task Name</th>
+                    <th>Task Done</th>
+                    <th>Actions</th>
+                   </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="profile in Profiles" ng-class="{'completed': profile.taskDone}">
+                    <td> <input type="text" ng-model="profile.name" ng-show="profile.editable">
+                      <span ng-hide="profile.editable">{{ profile.name }}</span></td>
+                      <td><input type="checkbox" ng-model="profile.taskDone"></td>
+                      <td>
+                          <div class="btn-group">
+                              <button type="button" ng-click="edit($index)" ng-hide="profile.editable" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></button>
+                              <button type="button" ng-click="save($index)" ng-show="profile.editable" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
+                              <button type="button" ng-click="delete($index)" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></button>
+                              <button type="button" ng-click="showComments($index)" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></button>
+ 
+                            </div>
+                         </td>
+                  </tr>
+                </tbody>
+              </table>
+
+        
+        </div>
+      </div>
+</div>
+
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">Comments</div>
+        <div class="panel-body">
+            <div class="comment-tabs"  ng-show="showCommentCond">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Comments</h4></a></li>
+                    <li><a href="#add-comment" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add comment</h4></a></li>
+                   </ul>            
+                <div class="tab-content">
+                    <div class="tab-pane active" id="comments-logout">                
+                        <ul class="media-list">
+                          <li class="media" ng-repeat="comment in commentsData">
+                            <a class="pull-left" href="#">
+                              <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+                            </a>
+                            <div class="media-body">
+                              <div class="well well-lg">
+                                  <h4 class="media-heading text-uppercase reviews">User Name </h4>
+                                  <ul class="media-date text-uppercase reviews list-inline">
+                                    <li class="dd">{{comment.date}}</li>
+                                  </ul>
+                                  <p class="media-comment">
+                                      {{comment.description}}
+                                  </p>
+                                  </div>              
+                            </div>
+                          </li>          
+                          
+                        </ul> 
+                    </div>
+                    <div class="tab-pane" id="add-comment">
+                        <form ng-submit="saveComment()" class="form-horizontal" id="commentForm" role="form"> 
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">Comment</label>
+                                <div class="col-sm-10">
+                                  <textarea class="form-control" ng-model="comment" name="addComment" id="addComment" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">                    
+                                    <button class="btn btn-success btn-circle text-uppercase"   type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit comment</button>
+                                </div>
+                            </div>            
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+      </div>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>
+
